@@ -3,27 +3,28 @@ const DOMelements = {};
 const game = {};
 
 
-DOMelements.startBtn = $("#start-btn");
+
 DOMelements.winnerP = $(".winner-p");
 DOMelements.player1Img = $("#player1");
 DOMelements.player2Img = $("#player2");
+DOMelements.rockImg = $("#rock");
+DOMelements.paperImg = $("#paper");
+DOMelements.scissorImg = $("#scissor");
 
-DOMelements.startBtn.focus();
 
-DOMelements.startBtn.addEventListener('click', () => {
-    startGame();
-});
+askTheUserNumber();
 
-function startGame() {
-    askTheUserNumber();
-    getRandomNumber();
-    analyseTheNumbers();
-    showAnimations();
-    showWinner();
-}
 
 function askTheUserNumber() {
-    game.userNumber = parseInt(prompt("What do you want? 0 - rock; 1 - paper; 2 - scissor"));
+
+    DOMelements.rockImg.src = "./img/rock.png";
+    DOMelements.paperImg.src = "./img/paper.png";
+    DOMelements.scissorImg.src = "./img/scissor.png";
+
+    DOMelements.rockImg.addEventListener("click", getUserNumber);
+    DOMelements.paperImg.addEventListener("click", getUserNumber);
+    DOMelements.scissorImg.addEventListener("click", getUserNumber);
+
 
     if (game.userNumber < 0 || game.userNumber > 2) {
         DOMelements.winnerP.classList.add("error");
@@ -34,7 +35,40 @@ function askTheUserNumber() {
 
         DOMelements.winnerP.classList.remove("error");
     }
+
+
+
+    function getUserNumber(event) {
+
+        switch (event.srcElement.id) {
+            case "rock":
+                game.userNumber = 0;
+                break;
+            case "paper":
+                game.userNumber = 1;
+                break;
+            case "scissor":
+                game.userNumber = 2;
+                break;
+            default:
+                game.userNumber = 0;
+        }
+
+        startGame();
+    }
+
 }
+
+
+
+function startGame() {
+
+    getRandomNumber();
+    analyseTheNumbers();
+    showAnimations();
+    showWinner();
+}
+
 
 function getRandomNumber() {
 
